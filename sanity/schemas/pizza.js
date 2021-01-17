@@ -8,9 +8,9 @@ export default {
   fields: [
     {
       name: 'name',
-      title: 'Pizza name',
+      title: 'Pizza Name',
       type: 'string',
-      description: 'Name of pizza',
+      description: 'Name of the pizza',
     },
     {
       name: 'slug',
@@ -37,5 +37,27 @@ export default {
       validation: (Rule) => Rule.min(1000).max(50000),
       //   TODO Custom component
     },
+    {
+      name: 'toppings',
+      title: 'Toppings',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'topping' }] }],
+    },
   ],
+  preview: {
+    select: {
+      title: 'name',
+      media: 'image',
+      topping0: 'toppings.0.name',
+      topping1: 'toppings.1.name',
+      topping2: 'toppings.2.name',
+      topping3: 'toppings.3.name',
+    },
+    prepare: ({ title, media, ...toppings }) => {
+      //   1. filter out undefined
+      const tops = Object.values(toppings).filter(Boolean);
+      //   2. return preview obj
+      return { title, media, subtitle: tops.join(', ') };
+    },
+  },
 };

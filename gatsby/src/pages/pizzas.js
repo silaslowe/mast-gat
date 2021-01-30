@@ -27,7 +27,10 @@ query PizzaQuery {
         }
         image {
           asset {
-            fluid(maxWidth: 400) {
+            # fixed(width: 200, height: 200) {
+            #   ...GatsbySanityImageFixed
+            # }
+            fluid(maxWidth: 200) {
               ...GatsbySanityImageFluid
             }
           }
